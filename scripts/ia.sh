@@ -6,6 +6,7 @@ DIALOG=${DIALOG=dialog}
 
 # Временный файл
 tempfile=`tempfile 2>/dev/null`
+tempfile=/tmp/shiit$RANDOM
 trap "rm -f $tempfile" 0 1 2 5 15
 
 while true
