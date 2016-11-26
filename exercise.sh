@@ -29,26 +29,22 @@ control_user()
 	"Сменить пароль пользователя"
     )
     
-    FUNCTIONS=(
-	ia.sh
-	delete_user
-	block_user
-	add_user_in_group
-	change_password
-    )
-    
     select opt in "${OPTIONS[@]}"; do
-#	if [[DEBUG == 1 ]]; then
+#	if [[ &DEBUG == 1 ]]; then
 #	    echo "opt=$opt"
 #	    echo "REPLY=$REPLY"
 #	fi
 	case $REPLY in
-	    [1-${OPTIONS[*]}])
-		#FUNC=${FUNCTIONS[$((REPLY-1))]}
-		#$FUNC || echo "fail"
-		ia.sh
-		break
-		;;
+	    1) chmod +x ./scripts/iia.sh
+		./scripts/ia.sh;;
+	    2) chmod +x ./scripts/iia.sh
+		./scripts/ib.sh;;
+	    3) chmod +x ./scripts/iia.sh
+		./scripts/ic.sh;;
+ 	    4) chmod +x ./scripts/id.sh
+		./scripts/ia.sh;;
+	    5) chmod +x ./scripts/ie.sh
+		./scripts/ib.sh;;
 	    help) echo "Вам необходимо выбрать одно из предложенных действий для дальнейшей работы с пользователем.";;
 	    menu)clear
 	    menu;;
@@ -70,22 +66,19 @@ control_group()
         "Изменить состав группы"
     )
     
-    FUNCTIONS=(
-	add_group
-	delete_group
-	change_group
-    )
-    
+     
     select opt in "${OPTIONS[@]}"; do
-#	if [[DEBUG == 1 ]]; then
-#	    echo "opt=$opt"
-#	    echo "REPLY=$REPLY"
-#	fi
+	if [[ $DEBUG == 1 ]]; then
+	    echo "opt=$opt"
+	    echo "REPLY=$REPLY"
+	fi
 	case $REPLY in
-	    [1-${OPTIONS[*]}])
-		FUNC=${FUNCTIONS[$((REPLY-1))]}
-		break
-		;;
+	    1) chmod +x ./scripts/iia.sh
+		./scripts/iia.sh;;
+	    2) chmod +x ./scripts/iib.sh
+		./scripts/iib.sh;;
+	    3) chmod +x ./scripts/iic.sh
+		./scripts/iic.sh;;
 	    help) echo "Вам необходимо выбрать одно из предложенных действий для дальнейшей работы с группой.";;
 	    menu) clear
 	    menu;;
@@ -107,18 +100,24 @@ search()
     )
 
     select opt in "${OPTIONS[@]}"; do
-#	if [[DEBUG == 1 ]]; then
-#	    echo "opt=$opt"
-#	    echo "REPLY=$REPLY"
-#	fi
+	if [[ $DEBUG == 1 ]]; then
+	    echo "opt=$opt"
+	    echo "REPLY=$REPLY"
+	fi
 	case $REPLY in
-	    [1-${OPTIONS[*]}])
-		FUNC=${FUNCTIONS[$((REPLY-1))]}
-		break
+	    1)
+		chmod +x ./scripts/iiia.sh
+		./scripts/iiia.sh
 		;;
-	    help) echo "Вам необходимо выбрать поиск пользователя или группы.";;
-	    menu) clear
-	    menu;;
+	    2)
+		chmod +x ./scripts/iiib.sh
+		./scripts/iiib.sh
+		;;
+	    help) 
+		echo "Вам необходимо выбрать поиск пользователя или группы.";;
+	    menu) 
+		clear
+		menu;;
 	    *) echo "Неверно выбрано действие!" >&2;;
 	esac
     done
@@ -154,7 +153,8 @@ menu()
 		$FUNC || echo "Ошибка! Нужно реализовать функцию $FUNC" >&2
 		break
 		;;
-	    help) echo "Вам необходимо выбрать задачу, чтобы начать работу в данной программе.";;
+	    help) 
+		echo "Вам необходимо выбрать задачу, чтобы начать работу в данной программе.";;
 	    q) exit 0;;
 	    *) echo "Неверно выбрана задача!" >&2;;
 	esac
