@@ -35,11 +35,11 @@ control_user()
 #	    echo "REPLY=$REPLY"
 #	fi
 	case $REPLY in
-	    1) chmod +x ./scripts/iia.sh
+	    1) chmod +x ./scripts/ia.sh
 		./scripts/ia.sh;;
-	    2) chmod +x ./scripts/iia.sh
+	    2) chmod +x ./scripts/ia.sh
 		./scripts/ib.sh;;
-	    3) chmod +x ./scripts/iia.sh
+	    3) chmod +x ./scripts.ia.sh
 		./scripts/ic.sh;;
  	    4) chmod +x ./scripts/id.sh
 		./scripts/ia.sh;;
