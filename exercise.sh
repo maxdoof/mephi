@@ -1,6 +1,8 @@
 #menu
 #!/bin/bash
 
+#Created by Roza
+
 #включить отладку
 DEBUG=1
 
@@ -28,7 +30,7 @@ control_user()
     )
     
     FUNCTIONS=(
-	add_user
+	ia.sh
 	delete_user
 	block_user
 	add_user_in_group
@@ -42,7 +44,9 @@ control_user()
 #	fi
 	case $REPLY in
 	    [1-${OPTIONS[*]}])
-		FUNC=${FUNCTIONS[$((REPLY-1))]}
+		#FUNC=${FUNCTIONS[$((REPLY-1))]}
+		#$FUNC || echo "fail"
+		ia.sh
 		break
 		;;
 	    help) echo "Вам необходимо выбрать одно из предложенных действий для дальнейшей работы с пользователем.";;
