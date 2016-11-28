@@ -9,7 +9,7 @@ DEBUG=1
 inital()
 {
     clear
-    echo "Управление пользователями и группами"
+    echo -e "Управление пользователями и группами\nС помощью данной программы Вы можете управлять пользователями и группами пользователей.\nВ момент работы с программой у Вас будут появляться подсказки, которые помогут Вам быстрее сориентироваться по действиям."
     echo -e "\nРазработчики:\nАбдуллаева Роза\nАлешин Максим\nЕлькин Дмитрий\nМатвеев Николай\nШишков Глеб\n"
 }
 
@@ -30,10 +30,7 @@ control_user()
     )
     
     select opt in "${OPTIONS[@]}"; do
-#	if [[ &DEBUG == 1 ]]; then
-#	    echo "opt=$opt"
-#	    echo "REPLY=$REPLY"
-#	fi
+	echo "Вы выбрали: $opt"
 	case $REPLY in
 	    1) chmod +x ./scripts/ia.sh
 		./scripts/ia.sh;;
@@ -64,14 +61,10 @@ control_group()
         "Добавить группу"
         "Удалить группу"
         "Изменить состав группы"
-    )
-    
+    ) 
      
     select opt in "${OPTIONS[@]}"; do
-	if [[ $DEBUG == 1 ]]; then
-	    echo "opt=$opt"
-	    echo "REPLY=$REPLY"
-	fi
+	echo "Вы выбрали: $opt"
 	case $REPLY in
 	    1) chmod +x ./scripts/iia.sh
 		./scripts/iia.sh;;
@@ -100,10 +93,7 @@ search()
     )
 
     select opt in "${OPTIONS[@]}"; do
-	if [[ $DEBUG == 1 ]]; then
-	    echo "opt=$opt"
-	    echo "REPLY=$REPLY"
-	fi
+        echo "Вы выбрали: $opt"
 	case $REPLY in
 	    1)
 		chmod +x ./scripts/iiia.sh
@@ -141,15 +131,10 @@ menu()
     )
 
     select opt in "${OPTIONS[@]}"; do
-#	if [[ $DEBUG == 1 ]]; then
-#    	    echo "opt=$opt" #opt содержит имя пункта меню, полезно для выбора пользователей или других объектов
-#    	    echo "REPLY=$REPLY" #REPLY содержит ответ пользователя
-#	fi
+    	echo "Вы выбрали: $opt" 
 	case $REPLY in
 	    [1-${#OPTIONS[*]}])
-	    #с помощью данного хитрого способа можно автоматически перейти в нужную реализацию
 		FUNC=${FUNCTIONS[$((REPLY-1))]}
-#	    echo "Запускаю функцию $FUNC"
 		$FUNC || echo "Ошибка! Нужно реализовать функцию $FUNC" >&2
 		break
 		;;
@@ -167,4 +152,5 @@ main()
     menu
 }
 
+#здесь надо добавить провеку для root
 main
