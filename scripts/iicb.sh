@@ -5,6 +5,16 @@ do
     #PS3='Выберите действие:'
     echo "Введите название группы, из которой Вы хотите удалить пользователя (q - прекратить выполнение действия):"
     read groupname
+
+    is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
+    if [[ $is_group != "true" ]]
+    then
+
+	echo "Группа с таким названием не существует"
+	echo "Введите снова название группы"
+        read groupname
+    fi
+
     if [[ "$groupname" == "q" ]]
     then
 	break
