@@ -20,24 +20,26 @@ do
     echo "Введите название группы, которую Вы хотите добавить (q - прекратить выполнение действия):"
     read groupname
 
+    is_group=false
     is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
+   
 
-    if [[ $is_group == "true" ]]
-    then
-
-	echo "Группа с таким названием уже существует"
-	echo "Введите снова название группы"
-        read groupname
-    fi
 
     if [[ "$groupname" == "q" ]]
     then
 	break
+
     elif [[ "$groupname" == "help" ]]
     then
 	echo -e "Вам необходимо ввести имя группы, которую вы хотите добавить.\n"
+    
     else
-	if [[ ${#groupname} -ne 0 ]]
+ 
+	if [[ $is_group == "true" ]]
+        then
+	    echo "Группа с таким названием  существует"
+
+	elif [[ ${#groupname} -ne 0 ]]
 	then
 	    #здесь нужна проверка на существование группы
 	    groupadd $groupname
