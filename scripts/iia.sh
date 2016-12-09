@@ -18,7 +18,9 @@ do
 	if [[ ${#groupname} -ne 0 ]]
 	then
 	    #здесь нужна проверка на существование группы
-	    groudadd $groupname
+	    echo "Для добавления группы вам понадобятся root"
+	    groupadd $groupname
+	    tail -5 /etc/group
 	    echo "Группа $groupname успешно создана"
 	else 
 	    echo "Вы не ввели имя группы!" >&2
