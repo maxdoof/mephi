@@ -9,23 +9,26 @@ do
     echo "Введите название группы, которую Вы хотите удалить (q - прекратить выполнение действия):"
     read groupname
 
+    is_group=false
     is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
-    if [[ $is_group != "true" ]]
-    then
-
-	echo "Группа с таким названием не существует"
-	echo "Введите снова название группы"
-        read groupname
-    fi
 
     if [[ "$groupname" == "q" ]]
     then
 	break
+
+    
+    
+
+    
     elif [[ "$groupname" == "help" ]]
     then
 	echo -e "Введите имя группы, которую Вы хотите удалить.\n"
-    else
-	if [[ ${#groupname} -ne 0 ]]
+    else 
+	if [[ $is_group != "true" ]]
+        then
+	    echo "Группа с таким названием не существует"
+
+	elif [[ ${#groupname} -ne 0 ]]
 	then
 	    echo "группы"
 	    tail -5 /etc/group
