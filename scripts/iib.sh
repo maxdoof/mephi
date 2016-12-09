@@ -1,21 +1,42 @@
+
 #!/bin/bash
+
+
+
 
 while [ "$groupname" != "q" ]
 do
-
-    #PS3='Выберите действие:'
     echo "Введите название группы, которую Вы хотите удалить (q - прекратить выполнение действия):"
     read groupname
-    if [[ "$groupname" == "q"]]
+
+    is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
+    if [[ $is_group != "true" ]]
+    then
+
+	echo "Группа с таким названием не существует"
+	echo "Введите снова название группы"
+        read groupname
+    fi
+
+    if [[ "$groupname" == "q" ]]
     then
 	break
-    elif [["$groupname" == help ]]
+    elif [[ "$groupname" == "help" ]]
     then
-	echo "Введите имя группы, которую Вы хотите удалить."
+	echo -e "Введите имя группы, которую Вы хотите удалить.\n"
     else
 	if [[ ${#groupname} -ne 0 ]]
-        then
+	then
+	    echo "группы"
+	    tail -5 /etc/group
 	    groupdel $groupname
-            echo "Группа $groupname успешно удалена.";;
+            echo "Группа $groupname успешно удалена."
+	    echo "группы"
+	    tail -5 /etc/group
+	    echo -e "Группа $groupname успешно удалена.\n"
+	else 
+	    echo "Вы не ввели имя группы!" >&2
+	fi
+    fi
 done
 exit 0
