@@ -7,32 +7,34 @@ do
     read groupname
 
     is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
-    if [[ $is_group != "true" ]]
-    then
-
-	echo "Группа с таким названием не существует"
-	echo "Введите снова название группы"
-        read groupname
-    fi
 
     if [[ "$groupname" == "q" ]]
     then
 	break
     fi
+
     if [[ "$groupname" == "help" ]]
     then
 	echo "Вам необходимо ввести имя группы, в которую Вы хотите добавить пользователя."
-    fi
-    echo "Введите  имя пользователя, которого Вы хотите добавить в эту группу (q - прекратить выполнение действия):"
-    read username
-    if [[ "$groupname" == "q" ]]
+
+    
+    elif [[ $is_group != "true" ]]
     then
-	break
-    elif [[ "$groupname" == "help" ]]
-    then
-	echo "Вам необходимо ввести имя пользователя, которого Вы хотите добавить."
+	echo "Группа с таким названием не существует"
+
     else
-	if [[ ${#groupname} -ne 0 ]]
+        echo "Введите  имя пользователя, которого Вы хотите добавить в эту группу (q - прекратить выполнение действия):"
+        read username
+        if [[ "$username" == "q" ]]
+        then
+	    break
+	fi
+        if [[ "$username" == "help" ]]
+        then
+	    echo "Вам необходимо ввести имя пользователя, которого Вы хотите добавить."
+        
+    
+	elif [[ ${#groupname} -ne 0 ]]
 	then
 	    usermod -a -G $groupname $username
 	    tail -5 /etc/group
