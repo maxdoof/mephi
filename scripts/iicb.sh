@@ -1,48 +1,57 @@
-##!/bin/bash
+#!/bin/bash
 
 while [ "$groupname" != "q" ]
 do
-    #PS3='Выберите действие:'
+
     echo "Введите название группы, из которой Вы хотите удалить пользователя (q - прекратить выполнение действия):"
     read groupname
 
     is_group=$(cat /etc/group | cut -d : -f1 | awk '($1=="'$groupname'"){print "true"}')
-    if [[ $is_group != "true" ]]
-    then
-
-	echo "Группа с таким названием не существует"
-	echo "Введите снова название группы"
-        read groupname
-    fi
 
     if [[ "$groupname" == "q" ]]
     then
 	break
     fi
+
     if [[ "$groupname" == "help" ]]
     then
-	echo "Вам необходимо ввести название группы, из которой Вы хотите удалить пользователя."
-    fi
-    echo "Введите  имя пользователя, которого Вы хотите удалить из $groupname (q - прекратить выполнение действия):"
-    read username
-    if [[ "$groupname" == "q" ]]
+	echo "Вам необходимо ввести название группы, из которой Вы хотите удалить пользователя и позже номер пользователя."
+	echo
+    
+    elif [[ $is_group != "true" ]]
     then
-	break
-    elif [[ "$groupname" == "help" ]]
-    then
-	echo "Вам необходимо ввести имя пользователя,которого вы хотите удалить"
+	echo "Группа с таким названием не существует"
+	echo
+
     else
-	if [[ ${#groupname} -ne 0 ]]
+	cat /etc/passwd | awk -F : '(($3>=1000)&&($1!="nfsnobody")){print $1}' | cat -n
+	echo
+        echo "Введите  номер пользователя, которого Вы хотите удалить из этой группы (q - прекратить выполнение действия):"
+        read choice key
+	user=$(cat /etc/passwd | awk -F : '(($3>=1000)&&($1!="nfsnobody")){print $1 }' | cat -n | awk '($1=="'$choice'"){print $2}')
+	if [[ "$choice" == "help" ]]
+        then
+	    echo "Вам необходимо ввести имя группы , в которой Вы хотите удалить пользователя и позже номер пользователя"
+	    break	
+	fi
+
+	if [ "$choice" == "q" ]
 	then
-	    gpasswd -d $username $groupname
+	    break
+	fi
+
+        if [ "$user" == "" ]
+	then
+	    echo Ошибка! Пользователь не найден >&2
+	    echo
+    
+	elif [[ ${#groupname} -ne 0 ]]
+	then
+	    gpasswd -d $user $groupname
 	    tail -5 /etc/group
 	else 
-	    echo "Вы не ввели название группы или имя пользователя!" >&2
+	    echo "Вы не ввели имя группы!" >&2
 	fi
     fi
-
-
-
 done
-
 exit 0
