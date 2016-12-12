@@ -13,19 +13,17 @@ do
 	break
     elif [[ "$groupname" == "help" ]]
     then
-	echo "Вам необходимо ввести имя группы, которую вы хотите добавить"
+	echo -e "Вам необходимо ввести имя группы, которую вы хотите добавить.\n"
     else
 	if [[ ${#groupname} -ne 0 ]]
 	then
 	    #здесь нужна проверка на существование группы
-	    echo "Для добавления группы вам понадобятся root"
 	    groupadd $groupname
 	    tail -5 /etc/group
-	    echo "Группа $groupname успешно создана"
+	    # echo -e "Группа $groupname успешно создана.\n"
 	else 
 	    echo "Вы не ввели имя группы!" >&2
 	fi
     fi
-
 done
 exit 0
