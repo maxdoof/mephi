@@ -1,52 +1,42 @@
 #!/bin/bash
-# Created by Max Doof
-
-# Инициализация переменной диалоговых окон 
-DIALOG=${DIALOG=dialog}
-
-# Временный файл
-tempfile=`tempfile 2>/dev/null`
-trap "rm -f $tempfile" 0 1 2 5 15
-users=`cat /etc/passwd | grep :/home/ | cut -d: -f1`
-
 while true
 do
+echo "Удаление пользователя. Введите имя или номер из списка:"
+tmp=`tempfile`
+userlist=$(grep home /etc/passwd | cut -d: -f1)
+m=0
 
-# Первый диалог
+for user in $userlist
+do
+m=$(($m+1))
+echo ":$m:$user:" >> $tmp 
 
-$DIALOG --title "Ввод данных" --clear \
-	--menu "Удаление пользователя. \nВведите имя или порядок." 10 51 2> $tempfile
-retval=$?
-case $retval in
-0)
-    username=`cat $tempfile`
-    grep "$username:" /etc/passwd > /dev/null
-	if ! [ $? -ne 0 ]; then
-	# Пользователь существует
-	$DIALOG --clear --title "Ошибочка" \
-		--yesno "Пользователь существует.\nПовторить ввод?" 10 20 
-	case $? in
-	    0) continue ;;
-	    1) break ;;
-	esac
-	# пользователь не существует
-	else
-	sudo useradd $username
-	$DIALOG --clear --title "Успешненько" \
-		--msgbox "Пользователь $username создан." 10 20 
-	break 
-	fi
-;;
-1)
-    echo "нахуй иди, злой человек";;
-255)
-    if test -s $teempfile ; then
-    cat $tempfile
-    else "ESC was pressed"
-    fi
-;;
+done
+
+cat $tmp | cut -d: -f2,3
+
+read username
+user=$(grep :$username: $tmp | cut -d: -f3)
+if [[ $user = "" ]]; 
+then
+    echo "Пользователь не существует или введена пустая строка"
+    echo "Повторить? (y/n)"
+    read answer
+    case "$answer" in
+	"y") continue ;;
+	"n") break ;;
+    esac
+fi
+sudo userdel $user
+echo "Пользователь удален. Удалить еще одного пользователя? (y/n)"
+
+rm -f $tmp
+
+read answer
+case "$answer" in
+    "y") continue ;;
+    "n") break ;;
 esac
-
 
 
 done

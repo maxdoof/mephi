@@ -1,0 +1,4 @@
+#!/bin/bash
+git pull mephi master
+git commit -m $1
+git push mephi master
