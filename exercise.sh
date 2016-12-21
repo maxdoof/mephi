@@ -39,9 +39,9 @@ control_user()
 	    3) chmod +x ./scripts.ic.sh
 		./scripts/ic.sh;;
  	    4) chmod +x ./scripts/id.sh
-		./scripts/ia.sh;;
+		./scripts/id.sh;;
 	    5) chmod +x ./scripts/ie.sh
-		./scripts/ib.sh;;
+		./scripts/ie.sh;;
 	    help) echo "Вам необходимо выбрать одно из предложенных действий для дальнейшей работы с пользователем.";;
 	    q)clear
 	    menu;;
