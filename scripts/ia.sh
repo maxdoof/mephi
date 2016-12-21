@@ -1,5 +1,4 @@
-#!/bin/bash +x
-# Created by Max Doof
+#!/bin/bash
 
 while true
 do
@@ -12,11 +11,9 @@ then
     continue
 fi
 
-grep ":$username:" /etc/passwd 
+checker=$(grep "$username:" /etc/passwd) 
 
-
-
-if ! [ $? -ne 0 ]; 
+if [[ "$checker" != "" ]]; 
 then
 	# Пользователь существует
 	echo "Пользователь существует. Повторить ввод? (y/n)"
@@ -31,6 +28,6 @@ else
 	sudo useradd $username
 	echo "Пользователь $username создан."  
 	break 
-	fi
+fi
 
 done

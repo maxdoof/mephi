@@ -36,7 +36,7 @@ control_user()
 		./scripts/ia.sh;;
 	    2) chmod +x ./scripts/ib.sh
 		./scripts/ib.sh;;
-	    3) chmod +x ./scripts.ic.sh
+	    3) chmod +x ./scripts/ic.sh
 		./scripts/ic.sh;;
  	    4) chmod +x ./scripts/id.sh
 		./scripts/id.sh;;

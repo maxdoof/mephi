@@ -2,7 +2,8 @@
 while true
 do
 echo "Удаление пользователя. Введите имя или номер из списка:"
-tmp=`tempfile`
+tmp="/tmp/aofijeofiwneo"
+rm -f $tmp
 userlist=$(grep home /etc/passwd | cut -d: -f1)
 m=0
 

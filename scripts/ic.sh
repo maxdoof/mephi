@@ -2,7 +2,8 @@
 while true
 do
 echo "Блокировка или разблокировка пользователя. Введите имя или номер из списка:"
-tmp=`tempfile`
+tmp="/tmp/jnjnjnjnjqiwubqiwu"
+rm -f tmp
 userlist=$(grep home /etc/passwd | cut -d: -f1)
 m=0
 
