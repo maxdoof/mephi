@@ -34,9 +34,9 @@ control_user()
 	case $REPLY in
 	    1) chmod +x ./scripts/ia.sh
 		./scripts/ia.sh;;
-	    2) chmod +x ./scripts/ia.sh
+	    2) chmod +x ./scripts/ib.sh
 		./scripts/ib.sh;;
-	    3) chmod +x ./scripts.ia.sh
+	    3) chmod +x ./scripts.ic.sh
 		./scripts/ic.sh;;
  	    4) chmod +x ./scripts/id.sh
 		./scripts/ia.sh;;
