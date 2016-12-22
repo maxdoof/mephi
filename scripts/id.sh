@@ -1,7 +1,7 @@
 #!/bin/bash
 #добавление пользователя в группу
-temp_users=mktemp
-temp_groups=mktemp
+temp_users=$(mktemp)
+temp_groups=$(mktemp)
 
 h=1
 while((h));

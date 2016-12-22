@@ -1,6 +1,6 @@
 #!/bin/bash
 
-temp_users=mktemp
+temp_users=$(mktemp)
 h=1
 while((h));
 do
