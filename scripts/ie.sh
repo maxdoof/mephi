@@ -1,16 +1,16 @@
-#!bin/bash
+#!/bin/bash
 
-
-cut -d: -f1 /etc/passwd > temp_users.txt
-i=1
-while read line; do
-	users[i]="$line"
-	echo "$i ${users[i]}"
-	i=$(($i+1))
-done < temp_users.txt
+temp_users=mktemp
 h=1
 while((h));
 do
+    cut -d: -f1 /etc/passwd > $temp_users
+    i=1
+    while read line; do
+    	users[i]="$line"
+	echo "$i ${users[i]}"
+	i=$(($i+1))
+    done < $temp_users
 	while((h));
 	do
 		echo "Введите имя пользователя или порядковый номер"
@@ -29,7 +29,7 @@ do
 		else
 			found_user="$answer"
 		fi	
-		user=`grep -w $found_user temp_users.txt`
+		user=`grep -w $found_user $temp_users`
 		if [ -z "$user" ]
 		then
 			echo "такого пользователя нет" >&2
@@ -49,3 +49,5 @@ do
 		break
 	fi
 done
+
+rm -f $temp_users
