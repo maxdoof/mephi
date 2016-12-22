@@ -1,17 +1,19 @@
 #!/bin/bash
 #добавление пользователя в группу
+temp_users=mktemp
+temp_groups=mktemp
 
-
-cut -d: -f1 /etc/passwd > temp_users
-i=1
-while read line; do
-	users[i]="$line"
-	echo "$i ${users[i]}"
-	i=$(($i+1))
-done < temp_users.txt
 h=1
 while((h));
 do
+    grep "/home" /etc/passwd | cut -d: -f1 > $temp_users
+    i=1
+    while read line; do
+	users[i]="$line"
+    	echo "$i ${users[i]}"
+	i=$(($i+1))
+    done < $temp_users
+
 	while((h));
 	do
 		echo "Введите имя пользователя или порядковый номер"
@@ -30,7 +32,7 @@ do
 		else
 			found_user="$answer"
 		fi	
-		user=`grep -w $found_user temp_users.txt`
+		user=`grep -w $found_user $temp_users`
 		if [ -z "$user" ]
 		then
 			echo "такого пользователя нет" >&2
@@ -42,13 +44,13 @@ do
 	then
 		break
 	fi	
-	cut -d: -f1 /etc/group > temp_groups.txt
+	cut -d: -f1 /etc/group > $temp_groups
 	i=1
 	while read line; do
 		groups[i]="$line"
 		echo "$i ${groups[i]}"
 		i=$(($i+1))
-	done < temp_groups.txt
+	done < $temp_groups
 	while((h));
 		do
 			echo "Введите название группы или порядковый номер"
@@ -67,7 +69,7 @@ do
 			else
 				found_group="$answer"
 			fi	
-			group=`grep -w $found_group temp_groups.txt`
+			group=`grep -w $found_group $temp_groups`
 			if [ -z "$group" ]
 			then
 				echo "такой группы нет" >&2
@@ -87,3 +89,7 @@ do
 		break
 	fi
 done
+
+
+rm -f $temp_users
+rm -f $temp_groups
