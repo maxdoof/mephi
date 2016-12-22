@@ -3,19 +3,18 @@ while true
 do
 echo "Блокировка или разблокировка пользователя. Введите имя или номер из списка:"
 tmp="/tmp/jnjnjnjnjqiwubqiwu"
-rm -f tmp
+rm -f $tmp
 userlist=$(grep home /etc/passwd | cut -d: -f1)
 m=0
 
 for user in $userlist
 do
-m=$(($m+1))
-is_locked=$(sudo passwd -S -a | grep "$user" | cut -d" " -f2)
-echo ":$m:$user:$is_locked" >>$tmp
-
+    m=$(($m+1))
+    is_locked=$(sudo passwd -S "$user" | cut -d" " -f2)
+    echo "0:$m:$user:$is_locked" >> $tmp
 done
 
-cat $tmp | cut -d: -f2,3,4 | sed 's/:L/ - Locked/g' | tr 'P' ' ' | tr ':' ' '  
+cat $tmp | cut -d: -f2,3,4 | sed 's/LK/ - locked/g' | sed 's/PS/ - unlocked/g' | tr ':' ' '
 
 read username
 user=$(grep :$username: $tmp | cut -d: -f3)
@@ -31,7 +30,7 @@ then
     esac
 fi
 case "$user_status" in
-    "P")
+    "PS")
 	echo "Пользователь $user не заблокирован. Заблокировать (y/n)?"
 	read answer
 	case "$answer" in
@@ -39,7 +38,7 @@ case "$user_status" in
 		 echo "Пользователь заблокирован" ;;
 	    "n") echo "Операция отменена" ;;
 	esac ;;
-    "L")
+    "LK")
 	echo "Пользователь $user заблокирован. Разблокировать (y/n)?"
 	read answer
 	case "$answer" in
